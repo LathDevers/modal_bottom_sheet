@@ -10,7 +10,7 @@ void main() {
     testWidgets('renders', (WidgetTester tester) async {
       await tester.pumpApp(SizedBox());
 
-      Navigator.of(tester.contextForRootNavigator).push(
+      await Navigator.of(tester.contextForRootNavigator).push(
         CupertinoSheetRoute(builder: (context) => Text('Sheet')),
       );
       await tester.pumpAndSettle();
@@ -18,30 +18,28 @@ void main() {
       expect(find.text('Sheet'), findsOneWidget);
     });
 
-    testWidgets('animates previous route when using MaterialExtendedPageRoute',
-        (WidgetTester tester) async {
+    testWidgets('animates previous route when using MaterialExtendedPageRoute', (WidgetTester tester) async {
       await tester.pumpApp(SizedBox());
       final controller = Navigator.of(tester.contextForRootNavigator);
-      controller.push(
+      await controller.push(
         MaterialExtendedPageRoute(builder: (context) => SizedBox()),
       );
       await tester.pumpAndSettle();
-      controller.push(
+      await controller.push(
         CupertinoSheetRoute(builder: (context) => Text('Sheet')),
       );
       await tester.pumpAndSettle();
       expect(find.byType(CupertinoSheetBottomRouteTransition), findsOneWidget);
     });
 
-    testWidgets('animates previous route when using CupertinoExtendedPageRoute',
-        (WidgetTester tester) async {
+    testWidgets('animates previous route when using CupertinoExtendedPageRoute', (WidgetTester tester) async {
       await tester.pumpApp(SizedBox());
       final controller = Navigator.of(tester.contextForRootNavigator);
-      controller.push(
+      await controller.push(
         CupertinoExtendedPageRoute(builder: (context) => SizedBox()),
       );
       await tester.pumpAndSettle();
-      controller.push(
+      await controller.push(
         CupertinoSheetRoute(builder: (context) => Text('Sheet')),
       );
       await tester.pumpAndSettle();
@@ -58,7 +56,7 @@ void main() {
               MaterialPage(child: SizedBox()),
               CupertinoSheetPage(child: Text('Sheet')),
             ],
-            onPopPage: (route, result) => false,
+            onDidRemovePage: (_) {},
           );
         },
       ));
@@ -67,8 +65,7 @@ void main() {
       expect(find.text('Sheet'), findsOneWidget);
     });
 
-    testWidgets('animates previous route when using MaterialExtendedPage',
-        (WidgetTester tester) async {
+    testWidgets('animates previous route when using MaterialExtendedPage', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         builder: (context, child) {
           return Navigator(
@@ -76,7 +73,7 @@ void main() {
               MaterialExtendedPage(child: SizedBox()),
               CupertinoSheetPage(child: Text('Sheet')),
             ],
-            onPopPage: (route, result) => false,
+            onDidRemovePage: (_) {},
           );
         },
       ));
@@ -84,8 +81,7 @@ void main() {
       expect(find.byType(CupertinoSheetBottomRouteTransition), findsOneWidget);
     });
 
-    testWidgets('animates previous route when using CupertinoExtendedPage',
-        (WidgetTester tester) async {
+    testWidgets('animates previous route when using CupertinoExtendedPage', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         builder: (context, child) {
           return Navigator(
@@ -93,7 +89,7 @@ void main() {
               CupertinoExtendedPage(child: SizedBox()),
               CupertinoSheetPage(child: Text('Sheet')),
             ],
-            onPopPage: (route, result) => false,
+            onDidRemovePage: (_) {},
           );
         },
       ));

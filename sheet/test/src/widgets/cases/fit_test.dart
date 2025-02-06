@@ -9,7 +9,7 @@ import '../../../screen_size_test.dart';
 
 void main() {
   group('fit', () {
-    testWidgets('height is child\'s height', (WidgetTester tester) async {
+    testWidgets("height is child's height", (WidgetTester tester) async {
       await tester.pumpApp(
         Sheet(
           child: Container(height: 200),
@@ -18,8 +18,7 @@ void main() {
       expect(tester.getSheetHeight(), equals(200));
     });
 
-    testWidgets('height is max height when child\'s height is infinite',
-        (WidgetTester tester) async {
+    testWidgets("height is max height when child's height is infinite", (WidgetTester tester) async {
       await tester.pumpApp(
         Sheet(
           child: Container(height: double.infinity),

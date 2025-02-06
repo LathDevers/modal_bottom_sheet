@@ -24,8 +24,7 @@ void main() {
           child: SizedBox(height: 200),
         ),
       );
-      final position = tester.getSheetPosition();
-      position.preventDrag();
+      final position = tester.getSheetPosition()..preventDrag();
       expect(position.preventingDrag, true);
       position.stopPreventingDrag();
       expect(position.preventingDrag, false);

@@ -9,8 +9,7 @@ void main() {
     () {
       Future<void> testInitStateAndDispose(
         WidgetTester tester,
-        Future<void> Function(BuildContext context, WidgetBuilder builder)
-            onPressed,
+        Future<void> Function(BuildContext context, WidgetBuilder builder) onPressed,
       ) async {
         int initState = 0, dispose = 0;
         await _pumpWidget(
@@ -162,7 +161,10 @@ PageRoute<T> defaultPageRoute<T>({
         maintainState: maintainState,
         fullscreenDialog: fullscreenDialog,
       );
-    default:
+    case TargetPlatform.android:
+    case TargetPlatform.fuchsia:
+    case TargetPlatform.linux:
+    case TargetPlatform.windows:
       return MaterialPageRoute<T>(
         builder: builder,
         settings: settings,

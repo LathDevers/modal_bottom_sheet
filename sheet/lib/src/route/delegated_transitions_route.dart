@@ -81,16 +81,13 @@ mixin DelegatedTransitionsRoute<T> on ModalRoute<T> {
   ///
   ///  * [buildSecondaryTransitionForPreviousRoute], to define
   ///    [previousRoute]'s `secondaryAnimation` transition when this is true
-  bool canDriveSecondaryTransitionForPreviousRoute(
-          Route<dynamic> previousRoute) =>
-      false;
+  bool canDriveSecondaryTransitionForPreviousRoute(Route<dynamic> previousRoute) => false;
 
   List<DelegatedTransitionsRoute<dynamic>>? _nextRoutes;
 
   @override
   void didChangeNext(Route<dynamic>? nextRoute) {
-    if (nextRoute is DelegatedTransitionsRoute &&
-        nextRoute.canDriveSecondaryTransitionForPreviousRoute(this)) {
+    if (nextRoute is DelegatedTransitionsRoute && nextRoute.canDriveSecondaryTransitionForPreviousRoute(this)) {
       _nextRoutes ??= <DelegatedTransitionsRoute<dynamic>>[];
       _nextRoutes!.add(nextRoute);
 
@@ -104,8 +101,7 @@ mixin DelegatedTransitionsRoute<T> on ModalRoute<T> {
   @override
   void didReplace(Route<dynamic>? oldRoute) {
     if (oldRoute is DelegatedTransitionsRoute && oldRoute._nextRoutes != null) {
-      _nextRoutes =
-          List<DelegatedTransitionsRoute<dynamic>>.from(oldRoute._nextRoutes!);
+      _nextRoutes = List<DelegatedTransitionsRoute<dynamic>>.from(oldRoute._nextRoutes!);
     }
     super.didReplace(oldRoute);
   }
@@ -120,20 +116,15 @@ mixin DelegatedTransitionsRoute<T> on ModalRoute<T> {
     if (_nextRoutes != null && _nextRoutes!.isNotEmpty) {
       Widget proxyChild = child;
       for (final DelegatedTransitionsRoute<dynamic> nextRoute in _nextRoutes!) {
-        final ProxyAnimation secondaryAnimation =
-            ProxyAnimation(nextRoute.animation!);
+        final ProxyAnimation secondaryAnimation = ProxyAnimation(nextRoute.animation);
         // assert(!nextRoute._transitionCompleter.isCompleted,  'Cannot reuse a ${nextRoute.runtimeType} after disposing it.');
-        proxyChild = nextRoute.buildSecondaryTransitionForPreviousRoute(
-            context, secondaryAnimation, child);
+        proxyChild = nextRoute.buildSecondaryTransitionForPreviousRoute(context, secondaryAnimation, child);
       }
 
-      final ProxyAnimation proxySecondaryAnimation =
-          ProxyAnimation(kAlwaysDismissedAnimation);
-      return super.buildTransitions(
-          context, animation, proxySecondaryAnimation, proxyChild);
+      final ProxyAnimation proxySecondaryAnimation = ProxyAnimation(kAlwaysDismissedAnimation);
+      return super.buildTransitions(context, animation, proxySecondaryAnimation, proxyChild);
     } else {
-      return super
-          .buildTransitions(context, animation, secondaryAnimation, child);
+      return super.buildTransitions(context, animation, secondaryAnimation, child);
     }
   }
 }

@@ -70,8 +70,7 @@ class _CupertinoSheetDecorationBuilder extends StatelessWidget {
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.vertical(top: topRadius),
-              color: backgroundColor ??
-                  CupertinoColors.systemBackground.resolveFrom(context),
+              color: backgroundColor ?? CupertinoColors.systemBackground.resolveFrom(context),
             ),
             child: MediaQuery.removePadding(
               context: context,
@@ -105,9 +104,9 @@ class CupertinoSheetRoute<T> extends SheetRoute<T> {
   }) : super(
           builder: (BuildContext context) {
             return _CupertinoSheetDecorationBuilder(
-              child: Builder(builder: builder),
               backgroundColor: backgroundColor,
               topRadius: _kCupertinoSheetTopRadius,
+              child: Builder(builder: builder),
             );
           },
           animationCurve: _kCupertinoSheetCurve,
@@ -138,9 +137,7 @@ class CupertinoSheetRoute<T> extends SheetRoute<T> {
       effectivePhysics = const NeverDraggableSheetPhysics();
     }
     final MediaQueryData mediaQuery = MediaQuery.of(context);
-    final double topMargin =
-        math.max(_kSheetMinimalOffset, mediaQuery.padding.top) +
-            _kPreviousRouteVisibleOffset;
+    final double topMargin = math.max(_kSheetMinimalOffset, mediaQuery.padding.top) + _kPreviousRouteVisibleOffset;
     return Sheet.raw(
       initialExtent: initialExtent,
       decorationBuilder: decorationBuilder,
@@ -170,16 +167,14 @@ class CupertinoSheetRoute<T> extends SheetRoute<T> {
       builder: (BuildContext context, Widget? child) {
         final double progress = secondaryAnimation.value;
         final double scale = 1 - progress / 10;
-        final double distanceWithScale =
-            (topOffset + _kPreviousRouteVisibleOffset) * 0.9;
-        final Offset offset =
-            Offset(0, progress * (topOffset - distanceWithScale));
+        final double distanceWithScale = (topOffset + _kPreviousRouteVisibleOffset) * 0.9;
+        final Offset offset = Offset(0, progress * (topOffset - distanceWithScale));
         return Transform.translate(
           offset: offset,
           child: Transform.scale(
             scale: scale,
-            child: child,
             alignment: Alignment.topCenter,
+            child: child,
           ),
         );
       },
@@ -187,14 +182,12 @@ class CupertinoSheetRoute<T> extends SheetRoute<T> {
   }
 
   @override
-  bool canDriveSecondaryTransitionForPreviousRoute(
-      Route<dynamic> previousRoute) {
+  bool canDriveSecondaryTransitionForPreviousRoute(Route<dynamic> previousRoute) {
     return previousRoute is! CupertinoSheetRoute;
   }
 
   @override
-  Widget buildSecondaryTransitionForPreviousRoute(BuildContext context,
-      Animation<double> secondaryAnimation, Widget child) {
+  Widget buildSecondaryTransitionForPreviousRoute(BuildContext context, Animation<double> secondaryAnimation, Widget child) {
     final Animation<double> delayAnimation = CurvedAnimation(
       parent: _sheetController.animation,
       curve: Interval(
@@ -239,8 +232,7 @@ class CupertinoSheetBottomRouteTransition extends StatelessWidget {
   Radius _getRadiusForDevice(MediaQueryData mediaQuery) {
     final double topPadding = mediaQuery.padding.top;
     // Round corners for iPhone devices from X to the newest version
-    final bool isRoundedDevice = defaultTargetPlatform == TargetPlatform.iOS &&
-        topPadding > _kRoundedDeviceStatusBarHeight;
+    final bool isRoundedDevice = defaultTargetPlatform == TargetPlatform.iOS && topPadding > _kRoundedDeviceStatusBarHeight;
     return isRoundedDevice ? _kRoundedDeviceRadius : Radius.zero;
   }
 
@@ -263,9 +255,7 @@ class CupertinoSheetBottomRouteTransition extends StatelessWidget {
         builder: (BuildContext context, Widget? child) {
           final double progress = curvedAnimation.value;
           final double scale = 1 - progress / 10;
-          final Radius radius = progress == 0
-              ? Radius.zero
-              : Radius.lerp(deviceCorner, _kCupertinoSheetTopRadius, progress)!;
+          final Radius radius = progress == 0 ? Radius.zero : Radius.lerp(deviceCorner, _kCupertinoSheetTopRadius, progress)!;
           return Stack(
             children: <Widget>[
               Container(color: CupertinoColors.black),
@@ -280,10 +270,7 @@ class CupertinoSheetBottomRouteTransition extends StatelessWidget {
                     borderRadius: BorderRadius.vertical(top: radius),
                     child: ColorFiltered(
                       colorFilter: ColorFilter.mode(
-                        (CupertinoTheme.brightnessOf(context) == Brightness.dark
-                                ? CupertinoColors.inactiveGray
-                                : Colors.black)
-                            .withOpacity(secondaryAnimation.value * 0.1),
+                        (CupertinoTheme.brightnessOf(context) == Brightness.dark ? CupertinoColors.inactiveGray : Colors.black).withValues(alpha: secondaryAnimation.value * 0.1),
                         BlendMode.srcOver,
                       ),
                       child: child,
@@ -349,8 +336,7 @@ class _PageBasedCupertinoSheetRoute<T> extends CupertinoSheetRoute<T> {
   }) : super(
           settings: page,
           builder: (BuildContext context) {
-            return (ModalRoute.of(context)!.settings as CupertinoSheetPage<T>)
-                .child;
+            return (ModalRoute.of(context)!.settings as CupertinoSheetPage<T>).child;
           },
         );
 

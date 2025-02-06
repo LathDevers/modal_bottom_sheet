@@ -9,8 +9,7 @@ Finder findSheet() => find.byKey(_childKey);
 extension BuildContextWidgetTester on WidgetTester {
   /// Gets context that can be used to push a new route into the root navigator
   /// Useful when we need to test bottom sheets or alerts
-  BuildContext get contextForRootNavigator =>
-      firstElement(find.byType(Navigator));
+  BuildContext get contextForRootNavigator => firstElement(find.byType(Navigator));
 }
 
 extension SheetTester on WidgetTester {
@@ -20,8 +19,8 @@ extension SheetTester on WidgetTester {
           home: Stack(
         children: <Widget>[
           TextButton(
-            child: const Text('TapHere'),
             onPressed: onButtonPressed,
+            child: const Text('TapHere'),
           ),
           sheet,
         ],
@@ -35,8 +34,8 @@ extension SheetTester on WidgetTester {
           home: Stack(
         children: <Widget>[
           TextButton(
-            child: const Text('TapHere'),
             onPressed: onButtonPressed,
+            child: const Text('TapHere'),
           ),
           Sheet(
             fit: fitVariants.currentValue ?? SheetFit.loose,
@@ -91,6 +90,5 @@ class FitSheetVariant extends ValueVariant<SheetFit> {
 final SheetChildVariant childVariants = SheetChildVariant();
 
 class SheetChildVariant extends ValueVariant<Widget> {
-  SheetChildVariant()
-      : super(<Widget>{Container(), const SingleChildScrollView()});
+  SheetChildVariant() : super(<Widget>{Container(), const SingleChildScrollView()});
 }

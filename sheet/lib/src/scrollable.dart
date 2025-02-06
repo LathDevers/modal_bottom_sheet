@@ -218,9 +218,10 @@ class SheetScrollable extends StatefulWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(EnumProperty<AxisDirection>('axisDirection', axisDirection));
-    properties.add(DiagnosticsProperty<ScrollPhysics>('physics', physics));
-    properties.add(StringProperty('restorationId', restorationId));
+    properties
+      ..add(EnumProperty<AxisDirection>('axisDirection', axisDirection))
+      ..add(DiagnosticsProperty<ScrollPhysics>('physics', physics))
+      ..add(StringProperty('restorationId', restorationId));
   }
 
   /// The state from the closest instance of this class that encloses the given context.
@@ -234,8 +235,7 @@ class SheetScrollable extends StatefulWidget {
   /// Calling this method will create a dependency on the closest [SheetScrollable]
   /// in the [context], if there is one.
   static SheetState? of(BuildContext context) {
-    final _ScrollableScope? widget =
-        context.dependOnInheritedWidgetOfExactType<_ScrollableScope>();
+    final _ScrollableScope? widget = context.dependOnInheritedWidgetOfExactType<_ScrollableScope>();
     return widget?.scrollable;
   }
 
@@ -246,8 +246,7 @@ class SheetScrollable extends StatefulWidget {
     double alignment = 0.0,
     Duration duration = Duration.zero,
     Curve curve = Curves.ease,
-    ScrollPositionAlignmentPolicy alignmentPolicy =
-        ScrollPositionAlignmentPolicy.explicit,
+    ScrollPositionAlignmentPolicy alignmentPolicy = ScrollPositionAlignmentPolicy.explicit,
   }) {
     final List<Future<void>> futures = <Future<void>>[];
 
@@ -310,9 +309,7 @@ class _ScrollableScope extends InheritedWidget {
 ///
 /// This class is not intended to be subclassed. To specialize the behavior of a
 /// [SheetScrollable], provide it with a [ScrollPhysics].
-class SheetState extends State<SheetScrollable>
-    with TickerProviderStateMixin, RestorationMixin
-    implements SheetContext {
+class SheetState extends State<SheetScrollable> with TickerProviderStateMixin, RestorationMixin implements SheetContext {
   /// The manager for this [SheetScrollable] widget's viewport position.
   ///
   /// To control what kind of [ScrollPosition] is created for a [SheetScrollable],
@@ -322,8 +319,7 @@ class SheetState extends State<SheetScrollable>
   SheetPosition get position => _position!;
   SheetPosition? _position;
 
-  final _RestorableScrollOffset _persistedScrollOffset =
-      _RestorableScrollOffset();
+  final _RestorableScrollOffset _persistedScrollOffset = _RestorableScrollOffset();
 
   @override
   AxisDirection get axisDirection => widget.axisDirection;
@@ -337,8 +333,7 @@ class SheetState extends State<SheetScrollable>
 
   SheetController get controller => _effectiveScrollController;
 
-  SheetController get _effectiveScrollController =>
-      widget.controller ?? _fallbackScrollController!;
+  SheetController get _effectiveScrollController => widget.controller ?? _fallbackScrollController!;
 
   // Only call this from places that will definitely trigger a rebuild.
   void _updatePosition() {
@@ -347,8 +342,7 @@ class SheetState extends State<SheetScrollable>
     if (widget.physics != null) {
       _physics = widget.physics!.applyTo(_physics);
     } else if (widget.scrollBehavior != null) {
-      _physics =
-          widget.scrollBehavior!.getScrollPhysics(context).applyTo(_physics);
+      _physics = widget.scrollBehavior!.getScrollPhysics(context).applyTo(_physics);
     }
     final ScrollPosition? oldPosition = _position;
     if (oldPosition != null) {
@@ -359,8 +353,7 @@ class SheetState extends State<SheetScrollable>
       scheduleMicrotask(oldPosition.dispose);
     }
 
-    _position = _effectiveScrollController.createScrollPosition(
-        _physics!, this, oldPosition);
+    _position = _effectiveScrollController.createScrollPosition(_physics!, this, oldPosition);
     assert(_position != null);
 
     _effectiveScrollController.attach(position);
@@ -371,8 +364,7 @@ class SheetState extends State<SheetScrollable>
     registerForRestoration(_persistedScrollOffset, 'offset');
     assert(_position != null);
     if (_persistedScrollOffset.value != null) {
-      position.restoreOffset(_persistedScrollOffset.value!,
-          initialRestore: initialRestore);
+      position.restoreOffset(_persistedScrollOffset.value!, initialRestore: initialRestore);
     }
   }
 
@@ -395,14 +387,12 @@ class SheetState extends State<SheetScrollable>
 
   @override
   void didChangeDependencies() {
-    _devicePixelRatio = MediaQuery.maybeDevicePixelRatioOf(context) ??
-        View.of(context).devicePixelRatio;
+    _devicePixelRatio = MediaQuery.maybeDevicePixelRatioOf(context) ?? View.of(context).devicePixelRatio;
     _updatePosition();
     super.didChangeDependencies();
   }
 
-  bool _shouldSheetPhysicsUpdate(
-      ScrollPhysics? newPhysics, ScrollPhysics? oldPhysics) {
+  bool _shouldSheetPhysicsUpdate(ScrollPhysics? newPhysics, ScrollPhysics? oldPhysics) {
     if (newPhysics is! SheetPhysics || oldPhysics is! SheetPhysics) {
       return false;
     }
@@ -410,13 +400,10 @@ class SheetState extends State<SheetScrollable>
   }
 
   bool _shouldUpdatePositionBasedOnPhysics(SheetScrollable oldWidget) {
-    ScrollPhysics? newPhysics =
-        widget.physics ?? widget.scrollBehavior?.getScrollPhysics(context);
-    ScrollPhysics? oldPhysics = oldWidget.physics ??
-        oldWidget.scrollBehavior?.getScrollPhysics(context);
+    ScrollPhysics? newPhysics = widget.physics ?? widget.scrollBehavior?.getScrollPhysics(context);
+    ScrollPhysics? oldPhysics = oldWidget.physics ?? oldWidget.scrollBehavior?.getScrollPhysics(context);
     do {
-      if (newPhysics?.runtimeType != oldPhysics?.runtimeType ||
-          _shouldSheetPhysicsUpdate(newPhysics, oldPhysics)) return true;
+      if (newPhysics?.runtimeType != oldPhysics?.runtimeType || _shouldSheetPhysicsUpdate(newPhysics, oldPhysics)) return true;
       newPhysics = newPhysics?.parent;
       oldPhysics = oldPhysics?.parent;
     } while (newPhysics != null || oldPhysics != null);
@@ -430,8 +417,7 @@ class SheetState extends State<SheetScrollable>
   }
 
   bool _shouldUpdatePosition(SheetScrollable oldWidget) {
-    return _shouldUpdatePositionBasedOnPhysics(oldWidget) ||
-        _shouldUpdatePositionBasedOnInitialExtent(oldWidget);
+    return _shouldUpdatePositionBasedOnPhysics(oldWidget) || _shouldUpdatePositionBasedOnInitialExtent(oldWidget);
   }
 
   @override
@@ -491,13 +477,11 @@ class SheetState extends State<SheetScrollable>
 
   // GESTURE RECOGNITION AND POINTER IGNORING
 
-  final GlobalKey<RawGestureDetectorState> _gestureDetectorKey =
-      GlobalKey<RawGestureDetectorState>();
+  final GlobalKey<RawGestureDetectorState> _gestureDetectorKey = GlobalKey<RawGestureDetectorState>();
   final GlobalKey _ignorePointerKey = GlobalKey();
 
   // This field is set during layout, and then reused until the next time it is set.
-  Map<Type, GestureRecognizerFactory> _gestureRecognizers =
-      const <Type, GestureRecognizerFactory>{};
+  Map<Type, GestureRecognizerFactory> _gestureRecognizers = const <Type, GestureRecognizerFactory>{};
   bool _shouldIgnorePointer = false;
 
   bool? _lastCanDrag;
@@ -506,8 +490,7 @@ class SheetState extends State<SheetScrollable>
   @override
   @protected
   void setCanDrag(bool canDrag) {
-    if (canDrag == _lastCanDrag &&
-        (!canDrag || widget.axis == _lastAxisDirection)) return;
+    if (canDrag == _lastCanDrag && (!canDrag || widget.axis == _lastAxisDirection)) return;
     if (!canDrag) {
       _gestureRecognizers = const <Type, GestureRecognizerFactory>{};
       // Cancel the active hold/drag (if any) because the gesture recognizers
@@ -518,9 +501,8 @@ class SheetState extends State<SheetScrollable>
       switch (widget.axis) {
         case Axis.vertical:
           _gestureRecognizers = <Type, GestureRecognizerFactory>{
-            VerticalDragGestureRecognizer: GestureRecognizerFactoryWithHandlers<
-                VerticalDragGestureRecognizer>(
-              () => VerticalDragGestureRecognizer(),
+            VerticalDragGestureRecognizer: GestureRecognizerFactoryWithHandlers<VerticalDragGestureRecognizer>(
+              VerticalDragGestureRecognizer.new,
               (VerticalDragGestureRecognizer instance) {
                 instance
                   ..onDown = _handleDragDown
@@ -531,8 +513,7 @@ class SheetState extends State<SheetScrollable>
                   ..minFlingDistance = _physics?.minFlingDistance
                   ..minFlingVelocity = _physics?.minFlingVelocity
                   ..maxFlingVelocity = _physics?.maxFlingVelocity
-                  ..velocityTrackerBuilder =
-                      _configuration.velocityTrackerBuilder(context)
+                  ..velocityTrackerBuilder = _configuration.velocityTrackerBuilder(context)
                   ..dragStartBehavior = widget.dragStartBehavior;
               },
             ),
@@ -540,10 +521,8 @@ class SheetState extends State<SheetScrollable>
           break;
         case Axis.horizontal:
           _gestureRecognizers = <Type, GestureRecognizerFactory>{
-            HorizontalDragGestureRecognizer:
-                GestureRecognizerFactoryWithHandlers<
-                    HorizontalDragGestureRecognizer>(
-              () => HorizontalDragGestureRecognizer(),
+            HorizontalDragGestureRecognizer: GestureRecognizerFactoryWithHandlers<HorizontalDragGestureRecognizer>(
+              HorizontalDragGestureRecognizer.new,
               (HorizontalDragGestureRecognizer instance) {
                 instance
                   ..onDown = _handleDragDown
@@ -554,8 +533,7 @@ class SheetState extends State<SheetScrollable>
                   ..minFlingDistance = _physics?.minFlingDistance
                   ..minFlingVelocity = _physics?.minFlingVelocity
                   ..maxFlingVelocity = _physics?.maxFlingVelocity
-                  ..velocityTrackerBuilder =
-                      _configuration.velocityTrackerBuilder(context)
+                  ..velocityTrackerBuilder = _configuration.velocityTrackerBuilder(context)
                   ..dragStartBehavior = widget.dragStartBehavior;
               },
             ),
@@ -566,8 +544,7 @@ class SheetState extends State<SheetScrollable>
     _lastCanDrag = canDrag;
     _lastAxisDirection = widget.axis;
     if (_gestureDetectorKey.currentState != null) {
-      _gestureDetectorKey.currentState!
-          .replaceGestureRecognizers(_gestureRecognizers);
+      _gestureDetectorKey.currentState!.replaceGestureRecognizers(_gestureRecognizers);
     }
   }
 
@@ -584,9 +561,7 @@ class SheetState extends State<SheetScrollable>
     if (_shouldIgnorePointer == value) return;
     _shouldIgnorePointer = value;
     if (_ignorePointerKey.currentContext != null) {
-      final RenderIgnorePointer renderBox = _ignorePointerKey.currentContext!
-          .findRenderObject()! as RenderIgnorePointer;
-      renderBox.ignoring = _shouldIgnorePointer;
+      (_ignorePointerKey.currentContext!.findRenderObject()! as RenderIgnorePointer).ignoring = _shouldIgnorePointer;
     }
   }
 
@@ -662,9 +637,7 @@ class SheetState extends State<SheetScrollable>
   // Returns the delta that should result from applying [event] with axis and
   // direction taken into account.
   double _pointerSignalEventDelta(PointerScrollEvent event) {
-    double delta = widget.axis == Axis.horizontal
-        ? event.scrollDelta.dx
-        : event.scrollDelta.dy;
+    double delta = widget.axis == Axis.horizontal ? event.scrollDelta.dx : event.scrollDelta.dy;
 
     if (axisDirectionIsReversed(widget.axisDirection)) {
       delta *= -1;
@@ -678,12 +651,10 @@ class SheetState extends State<SheetScrollable>
         return;
       }
       final double delta = _pointerSignalEventDelta(event);
-      final double targetScrollOffset =
-          _targetScrollOffsetForPointerScroll(delta);
+      final double targetScrollOffset = _targetScrollOffsetForPointerScroll(delta);
       // Only express interest in the event if it would actually result in a scroll.
       if (delta != 0.0 && targetScrollOffset != position.pixels) {
-        GestureBinding.instance.pointerSignalResolver
-            .register(event, _handlePointerScroll);
+        GestureBinding.instance.pointerSignalResolver.register(event, _handlePointerScroll);
       }
     }
   }
@@ -691,8 +662,7 @@ class SheetState extends State<SheetScrollable>
   void _handlePointerScroll(PointerEvent event) {
     assert(event is PointerScrollEvent);
     final double delta = _pointerSignalEventDelta(event as PointerScrollEvent);
-    final double targetScrollOffset =
-        _targetScrollOffsetForPointerScroll(delta);
+    final double targetScrollOffset = _targetScrollOffsetForPointerScroll(delta);
     if (delta != 0.0 && targetScrollOffset != position.pixels) {
       position.pointerScroll(delta);
     }
@@ -744,10 +714,10 @@ class SheetState extends State<SheetScrollable>
     if (!widget.excludeFromSemantics) {
       result = _ScrollSemantics(
         key: _scrollSemanticsKey,
-        child: result,
         position: position,
         allowImplicitScrolling: _physics!.allowImplicitScrolling,
         semanticChildCount: widget.semanticChildCount,
+        child: result,
       );
     }
 
@@ -757,9 +727,9 @@ class SheetState extends State<SheetScrollable>
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<ScrollPosition>('position', position));
     properties
-        .add(DiagnosticsProperty<ScrollPhysics>('effective physics', _physics));
+      ..add(DiagnosticsProperty<ScrollPosition>('position', position))
+      ..add(DiagnosticsProperty<ScrollPhysics>('effective physics', _physics));
   }
 
   @override
@@ -806,8 +776,7 @@ class _ScrollSemantics extends SingleChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, _RenderScrollSemantics renderObject) {
+  void updateRenderObject(BuildContext context, _RenderScrollSemantics renderObject) {
     renderObject
       ..allowImplicitScrolling = allowImplicitScrolling
       ..position = position
@@ -873,10 +842,8 @@ class _RenderScrollSemantics extends RenderProxyBox {
   SemanticsNode? _innerNode;
 
   @override
-  void assembleSemanticsNode(SemanticsNode node, SemanticsConfiguration config,
-      Iterable<SemanticsNode> children) {
-    if (children.isEmpty ||
-        !children.first.isTagged(RenderViewport.useTwoPaneSemantics)) {
+  void assembleSemanticsNode(SemanticsNode node, SemanticsConfiguration config, Iterable<SemanticsNode> children) {
+    if (children.isEmpty || !children.first.isTagged(RenderViewport.useTwoPaneSemantics)) {
       super.assembleSemanticsNode(node, config, children);
       return;
     }
@@ -899,8 +866,7 @@ class _RenderScrollSemantics extends RenderProxyBox {
     }
     config.scrollIndex = firstVisibleIndex;
     node.updateWith(config: null, childrenInInversePaintOrder: excluded);
-    _innerNode!
-        .updateWith(config: config, childrenInInversePaintOrder: included);
+    _innerNode!.updateWith(config: config, childrenInInversePaintOrder: included);
   }
 
   @override
@@ -915,8 +881,7 @@ class _RenderScrollSemantics extends RenderProxyBox {
 ///
 /// This function is used as the type for [SheetScrollable.incrementCalculator],
 /// which is called from a [ScrollAction].
-typedef ScrollIncrementCalculator = double Function(
-    ScrollIncrementDetails details);
+typedef ScrollIncrementCalculator = double Function(ScrollIncrementDetails details);
 
 /// Describes the type of scroll increment that will be performed by a
 /// [ScrollAction] on a [SheetScrollable].

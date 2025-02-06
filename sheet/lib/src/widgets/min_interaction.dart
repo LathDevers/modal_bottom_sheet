@@ -12,6 +12,7 @@ import 'package:meta/meta.dart';
 @internal
 class MinInteractionZone extends SingleChildRenderObjectWidget {
   const MinInteractionZone({
+    super.key,
     required this.direction,
     required this.extent,
     super.child,
@@ -27,8 +28,7 @@ class MinInteractionZone extends SingleChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, MinInteractionPaddingRenderBox renderObject) {
+  void updateRenderObject(BuildContext context, MinInteractionPaddingRenderBox renderObject) {
     renderObject
       ..direction = direction
       ..extent = extent;
@@ -59,8 +59,7 @@ class MinInteractionPaddingRenderBox extends RenderProxyBox {
     Rect minInteractionZone;
     switch (direction) {
       case AxisDirection.up:
-        minInteractionZone =
-            Rect.fromLTRB(0, size.height - extent, size.width, size.height);
+        minInteractionZone = Rect.fromLTRB(0, size.height - extent, size.width, size.height);
         break;
       case AxisDirection.down:
         minInteractionZone = Rect.fromLTRB(0, 0, size.width, extent);
@@ -69,8 +68,7 @@ class MinInteractionPaddingRenderBox extends RenderProxyBox {
         minInteractionZone = Rect.fromLTRB(0, 0, extent, size.height);
         break;
       case AxisDirection.left:
-        minInteractionZone =
-            Rect.fromLTRB(size.width - extent, 0, size.width, size.height);
+        minInteractionZone = Rect.fromLTRB(size.width - extent, 0, size.width, size.height);
         break;
     }
     return minInteractionZone.contains(position);

@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'delegated_transitions_route.dart';
-import 'sheet_route.dart';
+import 'package:sheet/src/route/delegated_transitions_route.dart';
+import 'package:sheet/src/route/sheet_route.dart';
 
 mixin PreviousSheetRouteMixin<T> on PageRoute<T> {
   @override
@@ -11,8 +10,7 @@ mixin PreviousSheetRouteMixin<T> on PageRoute<T> {
   }
 }
 
-class MaterialExtendedPageRoute<T> extends MaterialPageRoute<T>
-    with PreviousSheetRouteMixin<T>, DelegatedTransitionsRoute<T> {
+class MaterialExtendedPageRoute<T> extends MaterialPageRoute<T> with PreviousSheetRouteMixin<T>, DelegatedTransitionsRoute<T> {
   MaterialExtendedPageRoute({
     required super.builder,
     super.settings,
@@ -77,8 +75,7 @@ class _PageBasedMaterialPageRoute<T> extends MaterialExtendedPageRoute<T> {
   String get debugLabel => '${super.debugLabel}(${_page.name})';
 }
 
-class CupertinoExtendedPageRoute<T> extends CupertinoPageRoute<T>
-    with PreviousSheetRouteMixin<T>, DelegatedTransitionsRoute<T> {
+class CupertinoExtendedPageRoute<T> extends CupertinoPageRoute<T> with PreviousSheetRouteMixin<T>, DelegatedTransitionsRoute<T> {
   CupertinoExtendedPageRoute({
     required super.builder,
     super.title,

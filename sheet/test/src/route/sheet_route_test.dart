@@ -9,7 +9,7 @@ void main() {
     testWidgets('renders', (WidgetTester tester) async {
       await tester.pumpApp(SizedBox());
 
-      Navigator.of(tester.contextForRootNavigator).push(
+      await Navigator.of(tester.contextForRootNavigator).push(
         SheetRoute(builder: (context) => Text('Sheet')),
       );
       await tester.pumpAndSettle();
@@ -27,7 +27,7 @@ void main() {
               MaterialPage(child: SizedBox()),
               SheetPage(child: Text('Sheet')),
             ],
-            onPopPage: (route, result) => false,
+            onDidRemovePage: (_) {},
           );
         },
       ));

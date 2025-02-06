@@ -7,30 +7,28 @@ import '../../screen_size_test.dart';
 
 void main() {
   group('ResizableSheetChild', () {
-    testWidgets('if resizable is false, constraints are ignored',
-        (WidgetTester tester) async {
+    testWidgets('if resizable is false, constraints are ignored', (WidgetTester tester) async {
       final ViewportOffset offset = ViewportOffset.fixed(100);
 
       await tester.pumpWidget(
         ResizableSheetChild(
           offset: offset,
-          child: Container(),
           resizable: false,
+          child: Container(),
         ),
       );
 
       expect(tester.getSize(find.byType(Container)), kScreenSize);
     });
 
-    testWidgets('if resizable is true, child height depends on pixels offset',
-        (WidgetTester tester) async {
+    testWidgets('if resizable is true, child height depends on pixels offset', (WidgetTester tester) async {
       final ViewportOffset offset = ViewportOffset.fixed(100);
 
       await tester.pumpWidget(
         ResizableSheetChild(
           offset: offset,
-          child: Container(),
           resizable: true,
+          child: Container(),
         ),
       );
 
@@ -42,8 +40,8 @@ void main() {
       expect(
         ResizableSheetChild(
           offset: offset,
-          child: Container(),
           resizable: true,
+          child: Container(),
         ).minExtent,
         isZero,
       );
@@ -54,9 +52,9 @@ void main() {
       await tester.pumpWidget(
         ResizableSheetChild(
           offset: offset,
-          child: Container(),
           minExtent: 200,
           resizable: true,
+          child: Container(),
         ),
       );
 
@@ -69,19 +67,16 @@ void main() {
       late StateSetter setState;
       ViewportOffset offset = ViewportOffset.fixed(100);
       await tester.pumpWidget(
-        StatefulBuilder(
-            builder: (BuildContext context, StateSetter stateSetter) {
+        StatefulBuilder(builder: (BuildContext context, StateSetter stateSetter) {
           setState = stateSetter;
           return ResizableSheetChild(
             offset: offset,
-            child: Container(),
             resizable: true,
+            child: Container(),
           );
         }),
       );
-      final RenderResizableSheetChildBox renderObject =
-          tester.renderObject<RenderResizableSheetChildBox>(
-              find.byType(ResizableSheetChild));
+      final RenderResizableSheetChildBox renderObject = tester.renderObject<RenderResizableSheetChildBox>(find.byType(ResizableSheetChild));
 
       expect(renderObject.offset, offset);
       expect(tester.getSize(find.byType(Container)).height, offset.pixels);
@@ -99,19 +94,16 @@ void main() {
       final ViewportOffset offset = ViewportOffset.fixed(100);
       bool resizable = true;
       await tester.pumpWidget(
-        StatefulBuilder(
-            builder: (BuildContext context, StateSetter stateSetter) {
+        StatefulBuilder(builder: (BuildContext context, StateSetter stateSetter) {
           setState = stateSetter;
           return ResizableSheetChild(
             offset: offset,
-            child: Container(),
             resizable: resizable,
+            child: Container(),
           );
         }),
       );
-      final RenderResizableSheetChildBox renderObject =
-          tester.renderObject<RenderResizableSheetChildBox>(
-              find.byType(ResizableSheetChild));
+      final RenderResizableSheetChildBox renderObject = tester.renderObject<RenderResizableSheetChildBox>(find.byType(ResizableSheetChild));
 
       expect(renderObject.resizable, resizable);
       expect(tester.getSize(find.byType(Container)).height, offset.pixels);
@@ -129,20 +121,17 @@ void main() {
       final ViewportOffset offset = ViewportOffset.fixed(100);
       double minExtent = 200;
       await tester.pumpWidget(
-        StatefulBuilder(
-            builder: (BuildContext context, StateSetter stateSetter) {
+        StatefulBuilder(builder: (BuildContext context, StateSetter stateSetter) {
           setState = stateSetter;
           return ResizableSheetChild(
             offset: offset,
-            child: Container(),
             minExtent: minExtent,
             resizable: true,
+            child: Container(),
           );
         }),
       );
-      final RenderResizableSheetChildBox renderObject =
-          tester.renderObject<RenderResizableSheetChildBox>(
-              find.byType(ResizableSheetChild));
+      final RenderResizableSheetChildBox renderObject = tester.renderObject<RenderResizableSheetChildBox>(find.byType(ResizableSheetChild));
 
       expect(renderObject.minExtent, minExtent);
       expect(tester.getSize(find.byType(Container)).height, 200);

@@ -10,7 +10,7 @@ void main() {
     testWidgets('renders', (WidgetTester tester) async {
       await tester.pumpApp(SizedBox());
 
-      Navigator.of(tester.contextForRootNavigator).push(
+      await Navigator.of(tester.contextForRootNavigator).push(
         MaterialExtendedPageRoute(builder: (context) => Text('child')),
       );
       await tester.pumpAndSettle();
@@ -20,21 +20,21 @@ void main() {
     test('is a PreviousSheetRouteMixin', () {
       expect(
         MaterialExtendedPageRoute(builder: (context) => Text('child')),
-        isA<PreviousSheetRouteMixin>(),
+        isA<PreviousSheetRouteMixin<dynamic>>(),
       );
     });
 
     test('is a DelegatedTransitionsRoute', () {
       expect(
         MaterialExtendedPageRoute(builder: (context) => Text('child')),
-        isA<DelegatedTransitionsRoute>(),
+        isA<DelegatedTransitionsRoute<dynamic>>(),
       );
     });
 
     test('is a MaterialPageRoute', () {
       expect(
         MaterialExtendedPageRoute(builder: (context) => Text('child')),
-        isA<MaterialPageRoute>(),
+        isA<MaterialPageRoute<dynamic>>(),
       );
     });
   });
@@ -47,7 +47,7 @@ void main() {
             pages: [
               MaterialExtendedPage(child: Text('child')),
             ],
-            onPopPage: (route, result) => false,
+            onDidRemovePage: (_) {},
           );
         },
       ));
@@ -55,15 +55,14 @@ void main() {
       expect(find.text('child'), findsOneWidget);
     });
 
-    testWidgets('navigating to different routes keeping the same page',
-        (WidgetTester tester) async {
+    testWidgets('navigating to different routes keeping the same page', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         builder: (context, child) {
           return Navigator(
             pages: [
               MaterialExtendedPage(child: Text('first child')),
             ],
-            onPopPage: (route, result) => false,
+            onDidRemovePage: (_) {},
           );
         },
       ));
@@ -76,7 +75,7 @@ void main() {
             pages: [
               MaterialExtendedPage(child: Text('second child')),
             ],
-            onPopPage: (route, result) => false,
+            onDidRemovePage: (_) {},
           );
         },
       ));
@@ -85,20 +84,18 @@ void main() {
       expect(find.text('second child'), findsOneWidget);
     });
 
-    testWidgets('route is a MaterialExtendedPageRoute',
-        (WidgetTester tester) async {
+    testWidgets('route is a MaterialExtendedPageRoute', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         builder: (context, child) {
           return Navigator(
             pages: [MaterialPage(child: SizedBox())],
-            onPopPage: (route, result) => false,
+            onDidRemovePage: (_) {},
           );
         },
       ));
       expect(
-        MaterialExtendedPage(child: Text('child'))
-            .createRoute(tester.contextForRootNavigator),
-        isA<MaterialExtendedPageRoute>(),
+        MaterialExtendedPage(child: Text('child')).createRoute(tester.contextForRootNavigator),
+        isA<MaterialExtendedPageRoute<dynamic>>(),
       );
     });
 
@@ -107,7 +104,7 @@ void main() {
         builder: (context, child) {
           return Navigator(
             pages: [MaterialPage(child: SizedBox())],
-            onPopPage: (route, result) => false,
+            onDidRemovePage: (_) {},
           );
         },
       ));
@@ -118,7 +115,7 @@ void main() {
       );
       expect(
         page.createRoute(tester.contextForRootNavigator),
-        isA<MaterialExtendedPageRoute>()
+        isA<MaterialExtendedPageRoute<dynamic>>()
             .having(
               (p) => p.fullscreenDialog,
               'fullscreenDialog',
@@ -141,7 +138,7 @@ void main() {
     testWidgets('renders', (WidgetTester tester) async {
       await tester.pumpApp(SizedBox());
 
-      Navigator.of(tester.contextForRootNavigator).push(
+      await Navigator.of(tester.contextForRootNavigator).push(
         CupertinoExtendedPageRoute(builder: (context) => Text('child')),
       );
       await tester.pumpAndSettle();
@@ -151,21 +148,21 @@ void main() {
     test('is a PreviousSheetRouteMixin', () {
       expect(
         CupertinoExtendedPageRoute(builder: (context) => Text('child')),
-        isA<PreviousSheetRouteMixin>(),
+        isA<PreviousSheetRouteMixin<dynamic>>(),
       );
     });
 
     test('is a DelegatedTransitionsRoute', () {
       expect(
         CupertinoExtendedPageRoute(builder: (context) => Text('child')),
-        isA<DelegatedTransitionsRoute>(),
+        isA<DelegatedTransitionsRoute<dynamic>>(),
       );
     });
 
     test('is a CupertinoPageRoute', () {
       expect(
         CupertinoExtendedPageRoute(builder: (context) => Text('child')),
-        isA<CupertinoPageRoute>(),
+        isA<CupertinoPageRoute<dynamic>>(),
       );
     });
   });
@@ -178,7 +175,7 @@ void main() {
             pages: [
               CupertinoExtendedPage(child: Text('child')),
             ],
-            onPopPage: (route, result) => false,
+            onDidRemovePage: (_) {},
           );
         },
       ));
@@ -186,15 +183,14 @@ void main() {
       expect(find.text('child'), findsOneWidget);
     });
 
-    testWidgets('navigating to different routes keeping the same page',
-        (WidgetTester tester) async {
+    testWidgets('navigating to different routes keeping the same page', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         builder: (context, child) {
           return Navigator(
             pages: [
               CupertinoExtendedPage(child: Text('first child')),
             ],
-            onPopPage: (route, result) => false,
+            onDidRemovePage: (_) {},
           );
         },
       ));
@@ -207,7 +203,7 @@ void main() {
             pages: [
               CupertinoExtendedPage(child: Text('second child')),
             ],
-            onPopPage: (route, result) => false,
+            onDidRemovePage: (_) {},
           );
         },
       ));
@@ -216,20 +212,18 @@ void main() {
       expect(find.text('second child'), findsOneWidget);
     });
 
-    testWidgets('route is a CupertinoExtendedPageRoute',
-        (WidgetTester tester) async {
+    testWidgets('route is a CupertinoExtendedPageRoute', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         builder: (context, child) {
           return Navigator(
             pages: [MaterialPage(child: SizedBox())],
-            onPopPage: (route, result) => false,
+            onDidRemovePage: (_) {},
           );
         },
       ));
       expect(
-        CupertinoExtendedPage(child: Text('child'))
-            .createRoute(tester.contextForRootNavigator),
-        isA<CupertinoExtendedPageRoute>(),
+        CupertinoExtendedPage(child: Text('child')).createRoute(tester.contextForRootNavigator),
+        isA<CupertinoExtendedPageRoute<dynamic>>(),
       );
     });
 
@@ -238,7 +232,7 @@ void main() {
         builder: (context, child) {
           return Navigator(
             pages: [MaterialPage(child: SizedBox())],
-            onPopPage: (route, result) => false,
+            onDidRemovePage: (_) {},
           );
         },
       ));
@@ -250,7 +244,7 @@ void main() {
       );
       expect(
         page.createRoute(tester.contextForRootNavigator),
-        isA<CupertinoExtendedPageRoute>()
+        isA<CupertinoExtendedPageRoute<dynamic>>()
             .having(
               (p) => p.fullscreenDialog,
               'fullscreenDialog',

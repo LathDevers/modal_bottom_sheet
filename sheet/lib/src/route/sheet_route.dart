@@ -146,18 +146,15 @@ class SheetRoute<T> extends PageRoute<T> with DelegatedTransitionsRoute<T> {
   }
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation) {
+  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
     return _SheetRouteContainer(sheetRoute: this);
   }
 
   @override
-  bool canTransitionTo(TransitionRoute<dynamic> nextRoute) =>
-      nextRoute is SheetRoute;
+  bool canTransitionTo(TransitionRoute<dynamic> nextRoute) => nextRoute is SheetRoute;
 
   @override
-  bool canTransitionFrom(TransitionRoute<dynamic> previousRoute) =>
-      previousRoute is PageRoute;
+  bool canTransitionFrom(TransitionRoute<dynamic> previousRoute) => previousRoute is PageRoute;
 
   /// {@macro flutter.widgets.modalRoute.maintainState}
   @override
@@ -167,24 +164,19 @@ class SheetRoute<T> extends PageRoute<T> with DelegatedTransitionsRoute<T> {
   bool get opaque => false;
 
   @override
-  bool canDriveSecondaryTransitionForPreviousRoute(
-      Route<dynamic> previousRoute) {
+  bool canDriveSecondaryTransitionForPreviousRoute(Route<dynamic> previousRoute) {
     return true;
   }
 
   @override
-  Widget buildSecondaryTransitionForPreviousRoute(BuildContext context,
-      Animation<double> secondaryAnimation, Widget child) {
+  Widget buildSecondaryTransitionForPreviousRoute(BuildContext context, Animation<double> secondaryAnimation, Widget child) {
     return child;
   }
 
   /// Returns true if the controller should prevent popping for a given extent
   @protected
   bool shouldPreventPopForExtent(double extent) {
-    return extent < willPopThreshold &&
-        (hasScopedWillPopCallback ||
-            popDisposition == RoutePopDisposition.doNotPop) &&
-        controller!.velocity <= 0;
+    return extent < willPopThreshold && (hasScopedWillPopCallback || popDisposition == RoutePopDisposition.doNotPop) && controller!.velocity <= 0;
   }
 
   Widget buildSheet(BuildContext context, Widget child) {
@@ -363,12 +355,10 @@ class _SheetRouteContainer extends StatefulWidget {
   __SheetRouteContainerState createState() => __SheetRouteContainerState();
 }
 
-class __SheetRouteContainerState extends State<_SheetRouteContainer>
-    with TickerProviderStateMixin {
+class __SheetRouteContainerState extends State<_SheetRouteContainer> with TickerProviderStateMixin {
   SheetRoute<dynamic> get route => widget.sheetRoute;
   SheetController get _sheetController => widget.sheetRoute._sheetController;
-  AnimationController get _routeController =>
-      widget.sheetRoute._routeAnimationController!;
+  AnimationController get _routeController => widget.sheetRoute._routeAnimationController!;
   @override
   void initState() {
     _routeController.addListener(onRouteAnimationUpdate);
@@ -382,8 +372,7 @@ class __SheetRouteContainerState extends State<_SheetRouteContainer>
       )
           .then((_) {
         if (_sheetController.hasClients) {
-          (_sheetController.position.context as SheetContext)
-              .initialAnimationFinished = true;
+          (_sheetController.position.context as SheetContext).initialAnimationFinished = true;
         }
       });
     });
@@ -403,14 +392,12 @@ class __SheetRouteContainerState extends State<_SheetRouteContainer>
           !_firstAnimation &&
           !_sheetController.position.preventingDrag &&
           route.shouldPreventPopForExtent(_sheetController.animation.value) &&
-          _sheetController.position.userScrollDirection ==
-              ScrollDirection.forward) {
+          _sheetController.position.userScrollDirection == ScrollDirection.forward) {
         preventPop();
         return;
       }
       if (!_routeController.isAnimating) {
-        final double animationValue =
-            _sheetController.animation.value.mapDistance(
+        final double animationValue = _sheetController.animation.value.mapDistance(
           fromLow: 0,
           fromHigh: route.initialExtent,
           toLow: 0,
@@ -418,8 +405,9 @@ class __SheetRouteContainerState extends State<_SheetRouteContainer>
         );
         _routeController.value = animationValue;
         if (_sheetController.animation.value == 0) {
-          _routeController.value = 0.001;
-          _routeController.animateBack(0);
+          _routeController
+            ..value = 0.001
+            ..animateBack(0);
           route.navigator?.pop();
         }
       }
@@ -436,8 +424,7 @@ class __SheetRouteContainerState extends State<_SheetRouteContainer>
     }
     // widget.sheetRoute.navigator!.userGestureInProgressNotifier.value = false;
 
-    if (!_firstAnimation &&
-        _routeController.value != _sheetController.animation.value) {
+    if (!_firstAnimation && _routeController.value != _sheetController.animation.value) {
       if (_routeController.status == AnimationStatus.forward) {
         final double animationValue = _routeController.value.mapDistance(
           fromLow: 0,
